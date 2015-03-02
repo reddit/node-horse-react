@@ -1,0 +1,29 @@
+{
+  "name": "horse-react",
+  "version": "0.0.1",
+  "description": "react-specific implementation of `horse`",
+  "main": "index.es6.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --compilers es6.js:babel/register --recursive ./test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reddit/horse-react.git"
+  },
+  "author": "reddit <jack@reddit.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reddit/horse-react/issues"
+  },
+  "homepage": "https://github.com/reddit/horse-react",
+  "dependencies": {
+    "react": "^0.13.0-rc1"
+  },
+  "devDependencies": {
+    "babel": "^4.6.5",
+    "chai": "^2.1.0",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.7.0"
+  }
+}
