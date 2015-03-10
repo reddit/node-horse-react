@@ -3,9 +3,15 @@ import { App } from 'horse';
 
 class ServerReactApp extends App {
   * injectBootstrap () {
+    var p = this.props;
+
+    delete p.app;
+    delete p.api;
+    delete p.manifest;
+
     var body = this.body;
     var bodyIndex = body.lastIndexOf('</body>');
-    var template = '<script>var bootstrap=' + JSON.stringify(this.props) + '</script>';
+    var template = '<script>var bootstrap=' + JSON.stringify(p) + '</script>';
     this.body = body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
   }
 
