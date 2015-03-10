@@ -28,13 +28,18 @@ class ServerReactApp extends App {
     this.type = 'text/html; charset=utf-8';
   }
 
+
   static serverRender (app) {
     return function * () {
-      var promise = app.route(this);
-      yield promise;
+      if (this.accepts('html')) {
+        var promise = app.route(this);
+        yield promise;
+      }
 
-      yield app.render;
-      yield app.injectBootstrap;
+      if (typeof this.body === 'object' && React.isValidElement(this.body)) {
+        yield app.render;
+        yield app.injectBootstrap;
+      }
     }
   }
 }
