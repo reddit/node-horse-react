@@ -1,6 +1,6 @@
 {
   "name": "horse-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "react-specific implementation of `horse`",
   "main": "index.es6.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/reddit/horse-react",
   "dependencies": {
-    "react": "^0.13.0-rc1"
+    "react": "^0.13.0"
   },
   "devDependencies": {
     "babel": "^4.6.5",
