@@ -9,9 +9,11 @@ class ServerReactApp extends App {
     delete p.api;
     delete p.manifest;
 
+    var bootstrap = ServerReactApp.safeStringify(p);
+
     var body = this.body;
     var bodyIndex = body.lastIndexOf('</body>');
-    var template = '<script>var bootstrap=' + JSON.stringify(p) + '</script>';
+    var template = `<script>var bootstrap=${bootstrap}</script>`;
     this.body = body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
   }
 
@@ -28,6 +30,12 @@ class ServerReactApp extends App {
     this.type = 'text/html; charset=utf-8';
   }
 
+  static safeStringify (obj) {
+    return JSON.stringify(obj)
+      .replace(/&/g, '\\u0026')
+      .replace(/</g, '\\u003C')
+      .replace(/>/g, '\\u003E');
+  }
 
   static serverRender (app) {
     return function * () {
