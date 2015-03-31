@@ -36,7 +36,8 @@ class ClientReactApp extends ClientApp {
       path: request.path,
       query: request.query,
       params: request.params,
-    }
+      headers: request.headers,
+    };
   }
 
   render (href, firstLoad) {
