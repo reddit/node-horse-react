@@ -12,7 +12,11 @@ New APIs
 --------
 
 `horse-react` exposes pre-built `render` and `error` functions that you can
-hook into, through `ClientApp` and `ServerApp` classes.
+hook into, through `ClientApp` and `ServerApp` classes. It expects your
+middleware to attach a `layout`, `body`, and `props` property to the `context`
+object during the course of your route handling, and at the end, it will render
+it out (either with `layout`, if on the server, or it will mount the `body` if
+on the client.)
 
 
 A Brief Overview
@@ -73,10 +77,11 @@ import setupRoutes from './setupRoutes';
 
 import jQuery as $ from 'jquery';
 
-var app = new ClientApp();
-setupRoutes(app);
+var app = new ClientApp({
+  mountPoint: document.getElementById('app-container')
+});
 
-app.mountPoint = document.getElementById('app-container');
+setupRoutes(app);
 
 $(function() {
   $('body').on('click', 'a', function(e) {
