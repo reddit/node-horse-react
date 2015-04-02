@@ -40,7 +40,7 @@ class ClientReactApp extends ClientApp {
     };
   }
 
-  render (href, firstLoad) {
+  render (href, firstLoad, modifyContext) {
     var mountPoint = this.mountPoint;
 
     if (!mountPoint) {
@@ -48,6 +48,10 @@ class ClientReactApp extends ClientApp {
     }
 
     var ctx = this.buildContext(href);
+
+    if (modifyContext) {
+      var ctx = modifyContext(ctx);
+    }
 
     if (firstLoad) {
       ctx.props = this.getState();
