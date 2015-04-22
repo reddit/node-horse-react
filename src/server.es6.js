@@ -37,15 +37,19 @@ class ServerReactApp extends App {
       .replace(/>/g, '\\u003E');
   }
 
-  static serverRender (app) {
+  static serverRender (app, formatProps) {
     return function * () {
       if (this.accepts('html')) {
-        var promise = app.route(this);
-        yield promise;
+        yield app.route(this);
       }
 
       if (typeof this.body === 'object' && React.isValidElement(this.body)) {
         yield app.render;
+
+        if (formatProps) {
+          this.props = formatProps(this.props);
+        }
+
         yield app.injectBootstrap;
       }
     }

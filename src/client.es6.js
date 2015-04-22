@@ -37,6 +37,7 @@ class ClientReactApp extends ClientApp {
       query: request.query,
       params: request.params,
       headers: request.headers,
+      set: function() {}
     };
   }
 
