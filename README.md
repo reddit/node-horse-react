@@ -90,3 +90,11 @@ $(function() {
   });
 });
 ```
+
+Additional Notes
+----------------
+
+If you want to mount a client application directly on the server-rendered
+markup, add `this.staticMarkup` to the context before `serverRender` is called.
+Your `layout` should include `!!CONTENT!!` as the magic word where rendered
+body markup should be inserted (instead of `{this.children}`.)

@@ -21,11 +21,18 @@ class ServerReactApp extends App {
     var Layout = this.layout;
     var props = this.props;
 
-    this.body = React.renderToStaticMarkup(
-      <Layout {...props}>
-        {this.body}
-      </Layout>
-    );
+    if (this.staticMarkup) {
+      var layout = React.renderToStaticMarkup(<Layout {...props } />);
+      var body = React.renderToString(this.body);
+
+      this.body = layout.replace(/!!CONTENT!!/, body);
+    } else {
+      this.body = React.renderToStaticMarkup(
+        <Layout {...props}>
+          {this.body}
+        </Layout>
+      );
+    }
 
     this.type = 'text/html; charset=utf-8';
   }
