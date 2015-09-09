@@ -22,17 +22,26 @@ class ServerReactApp extends App {
     var Layout = this.layout;
     var props = this.props;
 
-    if (this.staticMarkup) {
-      var layout = React.renderToStaticMarkup(<Layout {...props } />);
-      var body = React.renderToString(this.body(props));
+    try {
+      if (this.staticMarkup) {
+        var layout = React.renderToStaticMarkup(<Layout {...props } />);
+        var body = React.renderToString(this.body(props));
 
-      this.body = layout.replace(/!!CONTENT!!/, body);
-    } else {
-      this.body = React.renderToStaticMarkup(
-        <Layout {...props}>
-          {this.body(props)}
-        </Layout>
-      );
+        this.body = layout.replace(/!!CONTENT!!/, body);
+      } else {
+        this.body = React.renderToStaticMarkup(
+          <Layout {...props}>
+            {this.body(props)}
+          </Layout>
+        );
+      }
+    } catch (e) {
+      if (this.props.app.config.debug) {
+        console.log(e, e.stack);
+      }
+
+      this.props.app.error(e, this, this.props.app);
+      yield this.props.app.render;
     }
 
     this.type = 'text/html; charset=utf-8';
@@ -59,22 +68,24 @@ class ServerReactApp extends App {
       if (typeof this.body === 'function') {
         // Load all the data required for the request before the server renders
         var data;
+        this.props = this.props || {};
 
         try {
           data = yield app.loadData;
         } catch (e) {
-          console.log(e);
-          return app.error(e);
+          app.error(e, this, app);
         }
 
         this.props.dataCache = {};
 
-        // The entries are in the same order as when we fired off the promises;
-        // load the data from the response array.
-        var i = 0;
-        for (var [key, value] of this.props.data.entries()) {
-          this.props.dataCache[key] = data[i];
-          i++;
+        if (data) {
+          // The entries are in the same order as when we fired off the promises;
+          // load the data from the response array.
+          var i = 0;
+          for (var [key, value] of this.props.data.entries()) {
+            this.props.dataCache[key] = data[i];
+            i++;
+          }
         }
 
         yield app.render;
