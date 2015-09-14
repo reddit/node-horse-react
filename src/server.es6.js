@@ -2,20 +2,26 @@ import React from 'react';
 import { App } from 'horse';
 
 class ServerReactApp extends App {
-  * injectBootstrap () {
-    var p = this.props;
+  injectBootstrap (format) {
+    return function * () {
+      var p = Object.assign({}, this.props);
 
-    delete p.app;
-    delete p.api;
-    delete p.manifest;
-    p.data = {};
+      if (format) {
+        p = format(p);
+      }
 
-    var bootstrap = ServerReactApp.safeStringify(p);
+      delete p.app;
+      delete p.api;
+      delete p.manifest;
+      p.data = {};
 
-    var body = this.body;
-    var bodyIndex = body.lastIndexOf('</body>');
-    var template = `<script>var bootstrap=${bootstrap}</script>`;
-    this.body = body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
+      var bootstrap = ServerReactApp.safeStringify(p);
+
+      var body = this.body;
+      var bodyIndex = body.lastIndexOf('</body>');
+      var template = `<script>var bootstrap=${bootstrap}</script>`;
+      this.body = body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
+    }
   }
 
   * render () {
@@ -94,7 +100,7 @@ class ServerReactApp extends App {
           this.props = formatProps(this.props);
         }
 
-        yield app.injectBootstrap;
+        yield app.injectBootstrap(app.config.formatBootstrap);
       }
     }
   }

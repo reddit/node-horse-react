@@ -58,14 +58,14 @@ class ClientReactApp extends ClientApp {
       ctx.props = this.getState();
     }
 
-    return new Promise(function(resolve) {
-      this.route(ctx).then(function() {
+    return new Promise((resolve) => {
+      this.route(ctx).then(() => {
         if (ctx.body && typeof ctx.body === 'function') {
           this.emitter.once('page:update', resolve);
           React.render(ctx.body(ctx.props), mountPoint);
         }
-      }.bind(this));
-    }.bind(this));
+      });
+    });
   }
 }
 
