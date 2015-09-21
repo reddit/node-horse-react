@@ -4,6 +4,8 @@ import { App } from 'horse';
 class ServerReactApp extends App {
   injectBootstrap (format) {
     return function * () {
+      this.props.timings = this.timings;
+
       var p = Object.assign({}, this.props);
 
       if (format) {
@@ -67,8 +69,12 @@ class ServerReactApp extends App {
 
   static serverRender (app, formatProps) {
     return function * () {
+      this.timings = {};
+
       if (this.accepts('html')) {
+        var routeStart = Date.now();
         yield app.route(this);
+        this.timings.route = Date.now() - routeStart;
       }
 
       if (typeof this.body === 'function') {
@@ -77,7 +83,9 @@ class ServerReactApp extends App {
         this.props = this.props || {};
 
         try {
+          var dataStart = Date.now();
           data = yield app.loadData;
+          this.timings.data = Date.now() - dataStart;
         } catch (e) {
           app.error(e, this, app);
         }
@@ -94,7 +102,9 @@ class ServerReactApp extends App {
           }
         }
 
+        var renderStart = Date.now();
         yield app.render;
+        this.timings.render = Date.now() - renderStart;
 
         if (formatProps) {
           this.props = formatProps(this.props);
