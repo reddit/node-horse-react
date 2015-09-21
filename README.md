@@ -35,12 +35,15 @@ import Index from '../pages/index.jsx';
 
 function setupRoutes(app) {
   app.router.get('/', function *(next) {
-    this.layout = Layout;
-    var user = yield db.getUser(1);
-    this.props = { user };
-    this.body = <Index {...this.props} />;
+    this.data = new Map({
+      user: db.getUser(1)
+    });
 
-    yield next;
+    this.layout = Layout;
+
+    this.body = function(props) {
+      return <Index {...this.props} />;
+    });
   });
 }
 
