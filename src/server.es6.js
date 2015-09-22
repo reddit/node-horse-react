@@ -53,7 +53,11 @@ class ServerReactApp extends App {
 
   * loadData() {
     // this.props.data is a map; pass in its keys as an array of promises
-    return Promise.all([...this.props.data.values()]);
+    if (this.props.data) {
+      return Promise.all([...this.props.data.values()]);
+    } else {
+      return Promise.resolve();
+    }
   }
 
   static safeStringify (obj) {
