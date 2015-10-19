@@ -44,10 +44,6 @@ class ServerReactApp extends App {
         );
       }
     } catch (e) {
-      if (this.props.app.config.debug) {
-        console.log(e, e.stack);
-      }
-
       this.props.app.error(e, this, this.props.app);
       yield this.props.app.render;
     }
