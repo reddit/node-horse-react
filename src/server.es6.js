@@ -27,28 +27,29 @@ class ServerReactApp extends App {
   }
 
   * render () {
-    var Layout = this.layout;
-    var props = this.props;
+    if (typeof this.body === 'function') {
+      var Layout = this.layout;
+      var props = this.props;
+      this.type = 'text/html; charset=utf-8';
 
-    try {
-      if (this.staticMarkup) {
-        var layout = React.renderToStaticMarkup(<Layout {...props } />);
-        var body = React.renderToString(this.body(props));
+      try {
+        if (this.staticMarkup) {
+          var layout = React.renderToStaticMarkup(<Layout {...props } />);
+          var body = React.renderToString(this.body(props));
 
-        this.body = layout.replace(/!!CONTENT!!/, body);
-      } else {
-        this.body = React.renderToStaticMarkup(
-          <Layout {...props}>
-            {this.body(props)}
-          </Layout>
-        );
+          this.body = layout.replace(/!!CONTENT!!/, body);
+        } else {
+          this.body = React.renderToStaticMarkup(
+            <Layout {...props}>
+              {this.body(props)}
+            </Layout>
+          );
+        }
+      } catch (e) {
+        this.props.app.error(e, this, this.props.app);
+        yield this.props.app.render;
       }
-    } catch (e) {
-      this.props.app.error(e, this, this.props.app);
-      yield this.props.app.render;
     }
-
-    this.type = 'text/html; charset=utf-8';
   }
 
   * loadData() {
