@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom/server';
 import { App } from 'horse';
 
 class ServerReactApp extends App {
@@ -34,12 +35,12 @@ class ServerReactApp extends App {
 
       try {
         if (this.staticMarkup) {
-          var layout = React.renderToStaticMarkup(<Layout {...props } />);
-          var body = React.renderToString(this.body(props));
+          var layout = ReactDOM.renderToStaticMarkup(<Layout {...props } />);
+          var body = ReactDOM.renderToString(this.body(props));
 
           this.body = layout.replace(/!!CONTENT!!/, body);
         } else {
-          this.body = React.renderToStaticMarkup(
+          this.body = ReactDOM.renderToStaticMarkup(
             <Layout {...props}>
               {this.body(props)}
             </Layout>

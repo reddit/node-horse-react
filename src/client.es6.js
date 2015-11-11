@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react-dom';
 import { ClientApp } from 'horse';
 
 class ClientReactApp extends ClientApp {
