@@ -4,7 +4,7 @@
   "description": "react-specific implementation of `horse`",
   "main": "index.es6.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers es6.js:babel/register --recursive ./test/",
+    "test": "./node_modules/mocha/bin/mocha test/index.js",
     "lint": "eslint . --ext .js,.jsx"
   },
   "repository": {
