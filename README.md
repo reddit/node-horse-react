@@ -1,6 +1,8 @@
 horse-react
 ===========
 
+[![Build Status](https://travis-ci.org/reddit/horse-react.svg)](https://travis-ci.org/reddit/horse-react)
+
 horse-react is an implementation of the
 [horse](https://github.com/reddit/horse) application building library, with
 some helpers to make working with react easily.
