@@ -104,6 +104,15 @@ class ServerReactApp extends App {
           }
         }
 
+        if (this.preServerRender) {
+          const preServerRender = this.preServerRender(this);
+
+          // If you explicitly return `false`, don't continue the render.
+          if (preServerRender === false) {
+            return;
+          }
+        }
+
         var renderStart = Date.now();
         yield app.render;
         this.timings.render = Date.now() - renderStart;
