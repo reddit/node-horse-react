@@ -25,19 +25,13 @@ class ClientReactApp extends ClientApp {
   }
 
   buildContext (href) {
-    var request = this.buildRequest(href);
+    const request = this.buildRequest(href);
 
     // `this` binding, how does it work
     return {
+      ...request,
       redirect: this.redirect,
       error: this.error,
-      request: request,
-      method: request.method,
-      path: request.path,
-      query: request.query,
-      params: request.params,
-      headers: request.headers,
-      set: function() {}
     };
   }
 
