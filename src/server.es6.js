@@ -16,13 +16,17 @@ class ServerReactApp extends App {
       delete p.app;
       delete p.api;
       delete p.manifest;
+
+      const nonce = p.nonce;
+      delete p.nonce;
+
       p.data = {};
 
       var bootstrap = ServerReactApp.safeStringify(p);
 
       var body = this.body;
       var bodyIndex = body.lastIndexOf('</body>');
-      var template = `<script>var bootstrap=${bootstrap}</script>`;
+      var template = `<script nonce='${nonce}'>var bootstrap=${bootstrap}</script>`;
       this.body = body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
     }
   }
