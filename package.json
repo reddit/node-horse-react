@@ -1,6 +1,6 @@
 {
-  "name": "horse-react",
-  "version": "1.2.0",
+  "name": "@r/horse-react",
+  "version": "1.2.1",
   "description": "react-specific implementation of `horse`",
   "main": "index.es6.js",
   "scripts": {
