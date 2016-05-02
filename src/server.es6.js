@@ -85,26 +85,29 @@ class ServerReactApp extends App {
 
       if (typeof this.body === 'function') {
         // Load all the data required for the request before the server renders
-        var data;
         this.props = this.props || {};
-
-        try {
-          var dataStart = Date.now();
-          data = yield app.loadData;
-          this.timings.data = Date.now() - dataStart;
-        } catch (e) {
-          app.error(e, this, app);
-        }
-
         this.props.dataCache = {};
 
-        if (data) {
-          // The entries are in the same order as when we fired off the promises;
-          // load the data from the response array.
-          var i = 0;
-          for (var [key, value] of this.props.data.entries()) {
-            this.props.dataCache[key] = data[i];
-            i++;
+        if (!this.skipServerPreload) {
+          var data;
+
+          try {
+            var dataStart = Date.now();
+            data = yield app.loadData;
+            this.timings.data = Date.now() - dataStart;
+          } catch (e) {
+            app.error(e, this, app);
+          }
+
+
+          if (data) {
+            // The entries are in the same order as when we fired off the promises;
+            // load the data from the response array.
+            var i = 0;
+            for (var [key, value] of this.props.data.entries()) {
+              this.props.dataCache[key] = data[i];
+              i++;
+            }
           }
         }
 
