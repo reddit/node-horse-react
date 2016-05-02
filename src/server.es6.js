@@ -46,7 +46,7 @@ class ServerReactApp extends App {
         } else {
           this.body = ReactDOM.renderToStaticMarkup(
             <Layout {...props}>
-              {this.body(props)}
+              { this.body(props) }
             </Layout>
           );
         }
@@ -60,7 +60,7 @@ class ServerReactApp extends App {
   * loadData() {
     // this.props.data is a map; pass in its keys as an array of promises
     if (this.props.data) {
-      return Promise.all([...this.props.data.values()]);
+      return Promise.all([...this.props.data.values()].map(f => f()));
     } else {
       return Promise.resolve();
     }
